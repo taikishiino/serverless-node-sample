@@ -1,9 +1,9 @@
-## 🚀 Nodejs12.x Handler on AWS Serverless
+# 🚀 Nodejs12.x Handler on AWS Serverless
 
 - serverless-offline: API Gatewayの代用として利用する
 - serverless-dynamodb-local: Serverless FrameworkからDynamoDB Localを操作できるようにする
 
-### Serverlessのインストール
+## Serverlessのインストール
 ```bash
 $ npm install -g serverless
 $ serverless --version
@@ -12,13 +12,13 @@ $ serverless --version
 $ sls create -t aws-nodejs -n serverless-janken
 ```
 
-### DynamoDB Local のインストール
+## DynamoDB Local のインストール
 serverless-dynamodb-local プラグインを利用してDynamoDB Localをインストールします。
 ```bash
 $ sls dynamodb install
 ```
 
-### Setup
+## Setup
 ```bash
 $ yarn install
 
@@ -33,7 +33,7 @@ $ sls deploy
 ```
 
 
-### DynamoDB Local の起動
+## DynamoDB Local の起動
 ```yml
 serverless.yml
 # service: serverless-janken の下に以下を追記

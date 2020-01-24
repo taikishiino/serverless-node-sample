@@ -6,6 +6,7 @@
   "scripts": {
     "sls:local": "sls offline",
     "sls:dynamodb": "sls dynamodb start",
+    "sls:remove": "sls remove",
     "sls:deploy": "sls deploy"
   },
   "author": "",
