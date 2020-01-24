@@ -2,32 +2,27 @@
 
 var AWS = require("aws-sdk");
 
-var judgeJanken = function (a, b)
-{
+var judgeJanken = function (a, b) {
 	var c = (a - b + 3) % 3;
 	if (c === 0) return "draw";
 	if (c === 2) return "win";
 	return "lose";
 }
 
-var getDynamoClient = function (event)
-{
+var getDynamoClient = function (event) {
 	var dynamodb = null;
-	if ("isOffline" in event && event.isOffline)
-	{
+	if ("isOffline" in event && event.isOffline) {
 		dynamodb = new AWS.DynamoDB.DocumentClient({
 			region: "localhost",
 			endpoint: "http://localhost:8000"
 		});
-	} else
-	{
+	} else {
 		dynamodb = new AWS.DynamoDB.DocumentClient();
 	}
 	return dynamodb;
 }
 
-module.exports.playJanken = function (event, context, callback)
-{
+module.exports.playJanken = function (event, context, callback) {
 	console.log("Received event:", JSON.stringify(event, null, 2));
 	console.log("Received context:", JSON.stringify(context, null, 2));
 
@@ -53,16 +48,13 @@ module.exports.playJanken = function (event, context, callback)
 		}
 	};
 
-	dynamodb.put(params, function (err)
-	{
+	dynamodb.put(params, function (err) {
 		var response = { statusCode: null, body: null };
-		if (err)
-		{
+		if (err) {
 			console.log(err);
 			response.statusCode = 500;
 			response.body = { code: 500, message: "PutItem Error" };
-		} else
-		{
+		} else {
 			response.statusCode = 200;
 			response.body = JSON.stringify({
 				player: player_hand,
@@ -75,24 +67,20 @@ module.exports.playJanken = function (event, context, callback)
 	});
 };
 
-module.exports.listJankens = function (event, context, callback)
-{
+module.exports.listJankens = function (event, context, callback) {
 	console.log("Received event:", JSON.stringify(event, null, 2));
 	console.log("Received context:", JSON.stringify(context, null, 2));
 
 	var dynamodb = getDynamoClient(event);
 	var params = { TableName: "jankens" };
 
-	dynamodb.scan(params, function (err, data)
-	{
+	dynamodb.scan(params, function (err, data) {
 		var response = { statusCode: null, body: null };
-		if (err)
-		{
+		if (err) {
 			console.log(err);
 			response.statusCode = 500;
 			response.body = { code: 500, message: "ScanItem Error" };
-		} else if ("Items" in data)
-		{
+		} else if ("Items" in data) {
 			response.statusCode = 200;
 			response.body = JSON.stringify({ jankens: data["Items"] });
 		}
